@@ -1,12 +1,11 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 
 const SearchBar = () => {
   const [text, setText] = useState("");
-  // const { keyword } = useParams<{ keyword: string }>();
   const router = useRouter();
   const searchHandler = (e: FormEvent) => {
     e.preventDefault();

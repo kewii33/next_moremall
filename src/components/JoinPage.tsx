@@ -23,21 +23,21 @@ const JoinPage = () => {
       alert("닉네임은 4 ~ 10자로 작성해주세요.");
       return;
     }
-    // try {
-    //   const { data: nicknameData, error: nicknameError } = await clientSupabase
-    //     .from("users")
-    //     .select("nickname")
-    //     .eq("nickname", nickname)
-    //     .single();
-    //   if (nicknameData) {
-    //     alert("이미 사용중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
-    //     return;
-    //   }
-    // } catch (error) {
-    //   console.error("닉네임 중복 검사 중 오류 발생", error);
-    //   alert("닉네임 중복 검사 중 예상치 못한 오류가 발생했습니다.");
-    //   return;
-    // }
+    try {
+      const { data: nicknameData, error: nicknameError } = await clientSupabase
+        .from("users")
+        .select("full_name")
+        .eq("full_name", nickname)
+        .single();
+      if (nicknameData) {
+        alert("이미 사용중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
+        return;
+      }
+    } catch (error) {
+      console.error("닉네임 중복 검사 중 오류 발생", error);
+      alert("닉네임 중복 검사 중 예상치 못한 오류가 발생했습니다.");
+      return;
+    }
     try {
       const {
         data: { session },
@@ -46,7 +46,7 @@ const JoinPage = () => {
         email: email,
         password: password,
         options: {
-          data: { nickname: nickname },
+          data: { full_name: nickname },
         },
       });
       if (session) {

@@ -30,15 +30,16 @@ const LoginPage = () => {
           queryKey: [USER_DATA_QUERY_KEY],
         });
         alert("로그인 되었습니다.");
-        router.push("/");
+        setEmail("");
+        setPassword("");
+        router.replace("/");
       } else if (error) throw error;
     } catch (error: any) {
       if (error.message.includes("Invalid login")) {
         console.log(error.message);
+        alert("이메일 또는 비밀번호를 확인해주세요.");
       }
     }
-    setEmail("");
-    setPassword("");
   };
 
   const router = useRouter();

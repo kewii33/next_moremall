@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import cors from "cors";
-import { Item } from "@/types/itemTypes";
 
 dotenv.config({ path: ".env.local" });
 
@@ -29,14 +28,15 @@ app.get("/api/naver/shop", async (req, res) => {
           start: 1,
         },
         headers: {
-          "X-Naver-Client-Id": process.env.NAVER_API_CLIENTID,
-          "X-Naver-Client-Secret": process.env.NAVER_API_CLIENTSECRET,
+          "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENTID,
+          "X-Naver-Client-Secret":
+            process.env.NEXT_PUBLIC_NAVER_API_CLIENTSECRET,
         },
       }
     );
     res.json(response.data);
   } catch (error) {
-    const axiosError = error as AxiosError;
+    const axiosError = error;
     if (axiosError.response) {
       res.status(axiosError.response.status).json({
         error: "검색 api data 불러오기 실패",
@@ -69,8 +69,9 @@ app.post("/api/naver/categories", async (req, res) => {
       },
       {
         headers: {
-          "X-Naver-Client-Id": process.env.NAVER_API_CLIENTID,
-          "X-Naver-Client-Secret": process.env.NAVER_API_CLIENTSECRET,
+          "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENTID,
+          "X-Naver-Client-Secret":
+            process.env.NEXT_PUBLIC_NAVER_API_CLIENTSECRET,
           "Content-Type": "application/json",
         },
       }
@@ -78,7 +79,7 @@ app.post("/api/naver/categories", async (req, res) => {
     console.log("Naver API response:", response.data);
     res.json(response.data);
   } catch (error) {
-    const axiosError = error as AxiosError;
+    const axiosError = error;
     if (axiosError.response) {
       res.status(axiosError.response.status).json({
         error: "쇼핑 api data 불러오기 실패",
@@ -110,14 +111,15 @@ app.get("/api/naver/shop/:keyword", async (req, res) => {
           query: keyword,
         },
         headers: {
-          "X-Naver-Client-Id": process.env.NAVER_API_CLIENTID,
-          "X-Naver-Client-Secret": process.env.NAVER_API_CLIENTSECRET,
+          "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENTID,
+          "X-Naver-Client-Secret":
+            process.env.NEXT_PUBLIC_NAVER_API_CLIENTSECRET,
         },
       }
     );
     console.log("Naver API 응답:", response.data);
     const product = response.data.items.find(
-      (item: Item) => item.productId === keyword
+      (item) => item.productId === keyword
     );
     if (product) {
       res.json(product);
